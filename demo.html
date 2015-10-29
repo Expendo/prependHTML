@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+	
+	<div id="add" style="border:1px solid #ddd;height: 400px;">
+	<p style="border:1px solid blue;">我是谁</p>
+	</div>
+	<script>
+//扩展在文档前添加html文件主要把上面的appendChild换成insertBefore
+HTMLElement.prototype.prependHTML = function(el,html) {
+    var divTemp = document.createElement("div"), nodes = null
+        // 文档片段，一次性append，提高性能
+        , fragment = document.createDocumentFragment();
+    divTemp.innerHTML = html;
+    nodes = divTemp.childNodes;
+    for (var i=0, length=nodes.length; i<length; i+=1) {
+       fragment.appendChild(nodes[i].cloneNode(true));
+    }
+    this.insertBefore(fragment, el.firstChild);
+    // 据说下面这样子世界会更清净
+    nodes = null;
+    fragment = null;
+};
+var add=document.getElementById('add')
+add.prependHTML(add,'<p>ok</p><p>hello</p>');
+
+	</script>
+	</body>
+</html>
